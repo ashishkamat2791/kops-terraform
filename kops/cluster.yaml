@@ -12,7 +12,7 @@ spec:
     rbac: {}
   channel: stable
   cloudProvider: aws
-  configBase: s3://krypton-kops-s3/aymen.krypton.berlin
+  configBase: s3://kamatworld-kops-s3/dev.kamatworld.xyz
   etcdClusters:
   - etcdMembers:
     - instanceGroup: master-eu-west-1a
@@ -78,7 +78,7 @@ spec:
     zone: eu-west-1c
   topology:
     bastion:
-      bastionPublicName: bastion.aymen.krypton.berlin
+      bastionPublicName: bastion.dev.kamatworld.xyz
     dns:
       type: Public
     masters: private
@@ -105,7 +105,7 @@ apiVersion: kops/v1alpha2
 kind: InstanceGroup
 metadata:
   labels:
-    kops.k8s.io/cluster: aymen.krypton.berlin
+    kops.k8s.io/cluster: dev.kamatworld.xyz
   name: master-eu-west-1b
 spec:
   image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
@@ -122,7 +122,7 @@ apiVersion: kops/v1alpha2
 kind: InstanceGroup
 metadata:
   labels:
-    kops.k8s.io/cluster: aymen.krypton.berlin
+    kops.k8s.io/cluster: dev.kamatworld.xyz
   name: master-eu-west-1c
 spec:
   image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
@@ -139,7 +139,7 @@ apiVersion: kops/v1alpha2
 kind: InstanceGroup
 metadata:
   labels:
-    kops.k8s.io/cluster: aymen.krypton.berlin
+    kops.k8s.io/cluster: dev.kamatworld.xyz
   name: nodes
 spec:
   image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
@@ -158,7 +158,7 @@ apiVersion: kops/v1alpha2
 kind: InstanceGroup
 metadata:
   labels:
-    kops.k8s.io/cluster: aymen.krypton.berlin
+    kops.k8s.io/cluster: dev.kamatworld.xyz
   name: bastions
 spec:
   image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
