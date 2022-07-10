@@ -1,5 +1,5 @@
 output "region" {
-  value = "ap-south-1"
+  value = "eu-west-1"
 }
 
 output "vpc_id" {

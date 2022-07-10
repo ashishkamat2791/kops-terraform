@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    region         = "ap-south-1"
+    region         = "eu-west-1"
     bucket         = "terraform-kops-state"
     key            = "terraform.tfstate"
     encrypt        = "true"
