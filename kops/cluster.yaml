@@ -1,0 +1,174 @@
+apiVersion: kops/v1alpha2
+kind: Cluster
+metadata:
+  name: dev.kamatworld.xyz
+spec:
+  api:
+    loadBalancer:
+      additionalSecurityGroups:
+      - sg-0d71acdcbd1697895
+      type: Public
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://krypton-kops-s3/aymen.krypton.berlin
+  etcdClusters:
+  - etcdMembers:
+    - instanceGroup: master-eu-west-1a
+      name: a
+    - instanceGroup: master-eu-west-1b
+      name: b
+    - instanceGroup: master-eu-wset-1c
+      name: c
+    name: main
+  - etcdMembers:
+    - instanceGroup: master-eu-west-1a
+      name: a
+    - instanceGroup: master-eu-west-1b
+      name: b
+    - instanceGroup: master-eu-west-1c
+      name: c
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubeControllerManager:
+    clusterCIDR: 10.0.0.0/16
+  kubeProxy:
+    clusterCIDR: 10.0.0.0/16
+  kubelet:
+    anonymousAuth: false
+  kubernetesVersion: 1.16.0
+  masterPublicName: api.dev.kamatworld.xyz
+  networkCIDR: 10.0.0.0/16
+  networkID: vpc-08df7cbe92c5dfa7c
+  networking:
+    amazonvpc: {}
+  nonMasqueradeCIDR: 10.0.0.0/16
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - id: subnet-03a21e31fe11b31fe
+    name: utility-eu-west-1a
+    type: Utility
+    zone: eu-west-1a
+  - id: subnet-0f8527b85c4bf0014
+    name: utility-eu-west-1b
+    type: Utility
+    zone: eu-west-1b
+  - id: subnet-03de58888accf8ff3
+    name: utility-eu-west-1c
+    type: Utility
+    zone: eu-west-1c
+  - egress: nat-0f5803f8266bf71ff
+    id: subnet-0dcb320ee30959af3
+    name: eu-west-1a
+    type: Private
+    zone: eu-west-1a
+  - egress: nat-0f5803f8266bf71ff
+    id: subnet-0fec471b4a8ecdcd2
+    name: eu-west-1b
+    type: Private
+    zone: eu-west-1b
+  - egress: nat-0f5803f8266bf71ff
+    id: subnet-0388dda7ee2eb36bb
+    name: eu-west-1c
+    type: Private
+    zone: eu-west-1c
+  topology:
+    bastion:
+      bastionPublicName: bastion.aymen.krypton.berlin
+    dns:
+      type: Public
+    masters: private
+    nodes: private
+---
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: dev.kamatworld.xyz
+  name: master-eu-west-1a
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.medium
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-eu-west-1a
+  role: Master
+  subnets:
+  - eu-west-1a
+---
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: aymen.krypton.berlin
+  name: master-eu-west-1b
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.medium
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-eu-west-1b
+  role: Master
+  subnets:
+  - eu-west-1b
+---
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: aymen.krypton.berlin
+  name: master-eu-west-1c
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.medium
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-eu-west-1c
+  role: Master
+  subnets:
+  - eu-west-1c
+---
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: aymen.krypton.berlin
+  name: nodes
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.small
+  maxSize: 2
+  minSize: 2
+  nodeLabels:
+    kops.k8s.io/instancegroup: nodes
+  role: Node
+  subnets:
+  - eu-west-1a
+  - eu-west-1b
+  - eu-west-1c
+---
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: aymen.krypton.berlin
+  name: bastions
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.micro
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: bastions
+  role: Bastion
+  subnets:
+  - utility-eu-west-1a
+  - utility-eu-west-1b
+  - utility-eu-west-1c
