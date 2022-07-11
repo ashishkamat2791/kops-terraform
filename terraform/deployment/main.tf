@@ -29,6 +29,6 @@ module "kops" {
 # }
 module "app_env" {
   source          = "../modules/app_env"
-  k8s_app_lb_name = var.k8s_app_lb_name
+ # k8s_app_lb_name = var.k8s_app_lb_name
   zone_name       = var.zone_name
 }
