@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: aymen-krypton
-        image: 898846401548.dkr.ecr.eu-central-1.amazonaws.com/aymen-krypton:latest
+        image: nginx:latest
         ports:
         - containerPort: 80

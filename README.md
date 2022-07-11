@@ -79,7 +79,7 @@ aws_secret_access_key = xxx/xxxxxxxxxxxxx/xxxx
 
 #### AWS
 
-We are going to create a kubernetes cluster inside a private VPC (we will create it using`terraform`) in the Frankfurt region (`eu-central-1`).
+We are going to create a kubernetes cluster inside a private VPC (we will create it using`terraform`) in the Frankfurt region (`eu-west-1`).
 This VPC will have 3 private and 3 public subnets (one per Availability zone).
 For our private subnets we will have only 1 NAT gateway (for economy purpose).
 
@@ -144,7 +144,7 @@ In this stage, we must define the provider and the backend configs as the follow
 
 ````
 provider "aws" {
-  region  = "eu-central-1"
+  region  = "eu-west-1"
   version = "~> 2.57"
   profile = "terraform-user"
 }
@@ -155,7 +155,7 @@ provider "aws" {
 ````
 terraform {
   backend "s3" {
-    region         = "eu-central-1"
+    region         = "eu-west-1"
     bucket         = "terraform-eks-dev"
     key            = "terraform.tfstate"
     encrypt        = "true"
@@ -287,7 +287,7 @@ The output we define below will be used by `kops` to configure and create our cl
 
 ````
 output "region" {
-  value = "eu-central-1"
+  value = "eu-west-1"
 }
 
 output "vpc_id" {
@@ -664,7 +664,7 @@ aymen-krypton-7dc69c7d7d-mvrbx   1/1     Running   0          25h
 ```
 $ kubectl get services
 NAME            TYPE           CLUSTER-IP   EXTERNAL-IP                                                                  PORT(S)        AGE
-aymen-krypton   LoadBalancer   10.0.3.6     afe022044489a44d8ae4a47c6f43c44c-2036026668.eu-central-1.elb.amazonaws.com   80:30770/TCP   25h
+aymen-krypton   LoadBalancer   10.0.3.6     afe022044489a44d8ae4a47c6f43c44c-2036026668.eu-west-1.elb.amazonaws.com   80:30770/TCP   25h
 kubernetes      ClusterIP      10.0.0.1     <none>                                                                       443/TCP        40h
 ```
 
