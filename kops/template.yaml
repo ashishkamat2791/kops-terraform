@@ -42,7 +42,7 @@ spec:
     anonymousAuth: false
   networking:
     amazonvpc: {}
-  nonMasqueradeCIDR: {{.vpc_cidr_block.value}}
+  nonMasqueradeCIDR: 100.64.0.0/10
   sshAccess:
   - 0.0.0.0/0
   - ::/0
