@@ -5,6 +5,7 @@ metadata:
 spec:
   api:
     loadBalancer:
+      class: Classic
       type: Public
       additionalSecurityGroups: ["{{.k8s_api_http_security_group_id.value}}"]
   authorization:
@@ -29,7 +30,7 @@ spec:
   iam:
     allowContainerRegistry: true
     legacy: false
-  kubernetesVersion: 1.19.0
+  kubernetesVersion: 1.24.2
   masterPublicName: api.{{.cluster_name.value}}
   networkCIDR: {{.vpc_cidr_block.value}}
   kubeControllerManager:
@@ -40,10 +41,11 @@ spec:
   kubelet:
     anonymousAuth: false
   networking:
-    amazonvpc: {}
+    calico: {}
   nonMasqueradeCIDR: {{.vpc_cidr_block.value}}
   sshAccess:
   - 0.0.0.0/0
+  - ::/0
   subnets:
   # Public (utility) subnets, one per AZ
   {{range $i, $id := .public_subnet_ids.value}}
@@ -64,7 +66,7 @@ spec:
     bastion:
       bastionPublicName: bastion.{{.cluster_name.value}}
     dns:
-      type: Public
+      type: Private
     masters: private
     nodes: private
 ---
@@ -78,8 +80,12 @@ metadata:
     kops.k8s.io/cluster: {{$.cluster_name.value}}
   name: master-{{.}}
 spec:
-  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
-  machineType: t2.medium
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220615
+  instanceMetadata:
+    httpPutResponseHopLimit: 1
+    httpTokens: required
+  machineType: t3.medium
+  manager: CloudGroup
   maxSize: 1
   minSize: 1
   role: Master
@@ -97,8 +103,12 @@ metadata:
     kops.k8s.io/cluster: {{.cluster_name.value}}
   name: nodes
 spec:
-  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
-  machineType: t2.small
+  image:  099720109477/ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220615
+  instanceMetadata:
+    httpPutResponseHopLimit: 1
+    httpTokens: required
+  machineType: t3.small
+  manager: CloudGroup
   maxSize: 2
   minSize: 2
   role: Node
@@ -117,8 +127,11 @@ metadata:
     kops.k8s.io/cluster: {{.cluster_name.value}}
   name: bastions
 spec:
-  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
-  machineType: t2.micro
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220615
+  instanceMetadata:
+    httpPutResponseHopLimit: 1
+    httpTokens: required
+  machineType: t3.micro
   maxSize: 1
   minSize: 1
   nodeLabels:
