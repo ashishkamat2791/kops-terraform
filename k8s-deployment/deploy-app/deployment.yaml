@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aymen-krypton
+  name: demo-app
   labels:
-    app: aymen-krypton
+    app: demo-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: aymen-krypton
+      app: demo-app
   template:
     metadata:
       labels:
-        app: aymen-krypton
+        app: demo-app
     spec:
       containers:
-      - name: aymen-krypton
+      - name: demo-app
         image: nginx:latest
         ports:
         - containerPort: 80

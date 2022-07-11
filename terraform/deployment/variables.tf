@@ -1,6 +1,6 @@
 variable "environment" {
   type        = string
-  default     = "kamatsoft"
+  default     = "kamatworld"
   description = "Name prefix"
 }
 variable "cidr" {
@@ -46,7 +46,7 @@ variable "cluster_name" {
 
 variable "image_name" {
   type        = string
-  default     = "kamatsoftware-xyz"
+  default     = "nginx"
   description = "App Docker image name"
 }
 variable "k8s_app_lb_name" {
@@ -55,6 +55,6 @@ variable "k8s_app_lb_name" {
 }
 variable "zone_name" {
   type        = string
-  default     = "dev.kamatsoftwares.xyz"
+  default     = "dev.kamatworld.xyz"
   description = "Main zone name"
 }
