@@ -41,7 +41,7 @@ spec:
   kubelet:
     anonymousAuth: false
   networking:
-    calico: {}
+    amazonvpc: {}
   nonMasqueradeCIDR: {{.vpc_cidr_block.value}}
   sshAccess:
   - 0.0.0.0/0
