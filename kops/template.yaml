@@ -33,16 +33,16 @@ spec:
   kubernetesVersion: 1.24.2
   masterPublicName: api.{{.cluster_name.value}}
   networkCIDR: {{.vpc_cidr_block.value}}
-  kubeControllerManager:
-    clusterCIDR: {{.vpc_cidr_block.value}}
-  kubeProxy:
-    clusterCIDR: {{.vpc_cidr_block.value}}
-  networkID: {{.vpc_id.value}}
-  kubelet:
-    anonymousAuth: false
+  # kubeControllerManager:
+  #   clusterCIDR: {{.vpc_cidr_block.value}}
+  # kubeProxy:
+  #   clusterCIDR: {{.vpc_cidr_block.value}}
+  # networkID: {{.vpc_id.value}}
+  # kubelet:
+  #   anonymousAuth: false
   networking:
     amazonvpc: {}
-  nonMasqueradeCIDR: 100.64.0.0/10
+  nonMasqueradeCIDR: {{.vpc_cidr_block.value}}
   sshAccess:
   - 0.0.0.0/0
   - ::/0
